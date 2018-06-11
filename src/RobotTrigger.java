@@ -44,8 +44,12 @@ public class RobotTrigger {
     }
 
     public void fireShotGun1(){
-        leftClick();
+        //leftClick();
         type("3");
+    }
+    public void fireShotGun2(){
+        //leftClick();
+        type("2");
     }
 
 

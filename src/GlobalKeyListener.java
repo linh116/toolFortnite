@@ -9,7 +9,15 @@ public class GlobalKeyListener implements NativeKeyListener {
 
     public void nativeKeyPressed(NativeKeyEvent e) {
 
-        System.out.println("Key Pressed: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
+        //System.out.println("Key Pressed: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
+        if (option.mode == Mode.NONE){
+            if (e.getKeyCode() == NativeKeyEvent.VC_O){
+                System.out.println("Turn on tool");
+                option.setMode(Mode.RIFFLE);
+            }else{
+                return;
+            }
+        }
 
         if (e.getKeyCode() == NativeKeyEvent.VC_2){
             try {
@@ -19,11 +27,17 @@ public class GlobalKeyListener implements NativeKeyListener {
             }
 
             option.setMode(Mode.SHOTGUN1);
-            System.out.println("Set mode shotgun1");
-        }
+            System.out.println("Set mode shotgun 1");
+        }else if (e.getKeyCode() == NativeKeyEvent.VC_3){
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
 
-        if(e.getKeyCode() == NativeKeyEvent.VC_1
-                || e.getKeyCode() == NativeKeyEvent.VC_3
+            option.setMode(Mode.SHOTGUN2);
+            System.out.println("Set mode shotgun 2");
+        }else if(e.getKeyCode() == NativeKeyEvent.VC_1
                 || e.getKeyCode() == NativeKeyEvent.VC_4
                 || e.getKeyCode() == NativeKeyEvent.VC_5
                 || e.getKeyCode() == NativeKeyEvent.VC_6
@@ -40,23 +54,19 @@ public class GlobalKeyListener implements NativeKeyListener {
                 || e.getKeyCode() == NativeKeyEvent.VC_BACKQUOTE){
             option.setMode(Mode.RIFFLE);
             System.out.println("Set mode Riffle");
-        }
-
-        if (e.getKeyCode() == NativeKeyEvent.VC_P) {
-            try {
-                GlobalScreen.unregisterNativeHook();
-            } catch (NativeHookException e1) {
-                e1.printStackTrace();
-            }
+        }else if (e.getKeyCode() == NativeKeyEvent.VC_P) {
+            option.setMode(Mode.NONE);
+            System.out.println("Turn off tool");
+            //GlobalScreen.unregisterNativeHook();
         }
     }
 
     public void nativeKeyReleased(NativeKeyEvent e) {
-        System.out.println("Key Released: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
+        //System.out.println("Key Released: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
     }
 
     public void nativeKeyTyped(NativeKeyEvent e) {
-        System.out.println("Key Typed: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
+        //System.out.println("Key Typed: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
     }
 
     public GlobalKeyListener(CurrentOption option) {
