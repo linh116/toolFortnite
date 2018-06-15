@@ -2,8 +2,11 @@
   <artifact type="jar" name="Test:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/Test_jar</output-path>
     <root id="archive" name="Test.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/out/META-INF/MANIFEST.MF" />
+      </element>
       <element id="module-output" name="Test" />
-      <element id="library" level="project" name="jnativehook-2.1.0" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/jnativehook/jar/jnativehook-2.1.0.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

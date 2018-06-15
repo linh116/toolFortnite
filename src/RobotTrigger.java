@@ -45,10 +45,12 @@ public class RobotTrigger {
 
     public void fireShotGun1(){
         //leftClick();
+        if(GlobalKeyListener.isCanFire())
         type("3");
     }
     public void fireShotGun2(){
         //leftClick();
+        if(GlobalKeyListener.isCanFire())
         type("2");
     }
 

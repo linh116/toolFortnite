@@ -1,12 +1,18 @@
-import org.jnativehook.GlobalScreen;
-import org.jnativehook.NativeHookException;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GlobalKeyListener implements NativeKeyListener {
     private CurrentOption option;
     private RobotTrigger robot = new RobotTrigger();
 
+    public static boolean isCanFire() {
+        return canFire;
+    }
+
+    static boolean canFire = true;
     public void nativeKeyPressed(NativeKeyEvent e) {
 
         //System.out.println("Key Pressed: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
@@ -20,23 +26,34 @@ public class GlobalKeyListener implements NativeKeyListener {
         }
 
         if (e.getKeyCode() == NativeKeyEvent.VC_2){
-            try {
-                Thread.sleep(800);
-            } catch (InterruptedException e1) {
-                e1.printStackTrace();
-            }
-
+            Mode oldMode = option.getMode();
             option.setMode(Mode.SHOTGUN1);
             System.out.println("Set mode shotgun 1");
-        }else if (e.getKeyCode() == NativeKeyEvent.VC_3){
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e1) {
-                e1.printStackTrace();
+            if (canFire && oldMode != Mode.SHOTGUN1){
+                canFire = false;
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        canFire = true;
+                    }
+                }, 800);
             }
-
+        }else if (e.getKeyCode() == NativeKeyEvent.VC_3){
+            Mode oldMode = option.getMode();
             option.setMode(Mode.SHOTGUN2);
             System.out.println("Set mode shotgun 2");
+            if (canFire  && oldMode != Mode.SHOTGUN2){
+                canFire = false;
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        option.setMode(Mode.SHOTGUN2);
+                        canFire = true;
+                    }
+                }, 500);
+            }
+
+
         }else if(e.getKeyCode() == NativeKeyEvent.VC_1
                 || e.getKeyCode() == NativeKeyEvent.VC_4
                 || e.getKeyCode() == NativeKeyEvent.VC_5
